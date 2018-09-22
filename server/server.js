@@ -2,6 +2,8 @@
 require('./config/config');
 
 const express = require('express');
+const mongoose = require('mongoose');
+
 const app = express();
 
 const bodyParser = require('body-parser')
@@ -10,36 +12,37 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
-app.get('/usuario', (req, res) => {
-    res.json('get Usuario')
-});
-app.post('/usuario', (req, res) => {
-    let body = req.body;
 
-    if (body.nombre === undefined) {
-        res.status(400).json({
-            ok: false,
-            mensaje: "El nombre es necesario."
-        });
-    } else {
-        res.json({
-            persona: body
-        });
-    }
+// Importando app de Routes
+const usuarioRoute = require('./routes/usuario').app;
 
-});
-app.put('/usuario/:id', (req, res) => {
-    let id = req.params.id;
-    res.json({
-        id,
-        nombre: 'delete Usuario',
-    })
-});
-app.delete('/usuario', (req, res) => {
-    res.json('delete Usuario')
-});
+// Usando Middleware USE en Routes
+app.use('/usuario', usuarioRoute);
 
+// Escuchando puerto para NODE
 const port = process.env.PORT;
-app.listen(port, () => console.log(`Escuchando puerto: ${port}`))
+
+// Conectándose a mongodb
+mongoose.set('useCreateIndex', true);
+mongoose.set('useNewUrlParser', true);
+
+mongoose.connect(process.env.URLBD, (err) => {
+    if (err) return err;
+
+    console.log('Base de datos ONLINE!');
+});
+
+// ==============================
+// Esta es otra manera de conección a la BD de Mongo a partir de la versión 4.
+// mongoose.connect('mongodb://localhost:27017/cafe', { useNewUrlParser: true })
+// let db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'Error de conección:'));
+// db.once('open', () => {
+//     console.log(`Base de datos ONLINE!`);
+// });
+// ==============================
+
+// Desplegando el servidor NODE
+app.listen(port, () => console.log(`Escuchando puerto: ${port}`));
