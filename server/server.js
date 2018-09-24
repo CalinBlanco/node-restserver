@@ -15,34 +15,11 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 
-// Importando app de Routes
-const usuarioRoute = require('./routes/usuario').app;
+// Configucarión global de rutas
+app.use(require('./routes/index').app);
 
-// Usando Middleware USE en Routes
-app.use('/usuario', usuarioRoute);
-
-// Escuchando puerto para NODE
-const port = process.env.PORT;
-
-// Conectándose a mongodb
-mongoose.set('useCreateIndex', true);
-mongoose.set('useNewUrlParser', true);
-
-mongoose.connect(process.env.URLBD, (err) => {
-    if (err) return err;
-
-    console.log('Base de datos ONLINE!');
-});
-
-// ==============================
-// Esta es otra manera de conección a la BD de Mongo a partir de la versión 4.
-// mongoose.connect('mongodb://localhost:27017/cafe', { useNewUrlParser: true })
-// let db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'Error de conección:'));
-// db.once('open', () => {
-//     console.log(`Base de datos ONLINE!`);
-// });
-// ==============================
+// Conectándose a MONGO
+require('./config/connect');
 
 // Desplegando el servidor NODE
-app.listen(port, () => console.log(`Escuchando puerto: ${port}`));
+app.listen(process.env.PORT, () => console.log(`Escuchando puerto: ${process.env.PORT}`));
