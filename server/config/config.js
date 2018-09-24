@@ -19,7 +19,6 @@ process.env.EXPIRA_TOKEN = "30 days";
 // =================
 process.env.SEED = process.env.SEED || 'este-es-el-seed-desarrollo';
 
-
 // =================
 // Base de Datos
 // =================
@@ -32,3 +31,8 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 process.env.URLBD = urlBD;
+
+// =================
+// Google Client ID
+// =================
+process.env.CLIENT_ID = process.env.CLIENT_ID || '774261344045-19vvh4pgfp56dla1be14rlbo6558q719.apps.googleusercontent.com';
