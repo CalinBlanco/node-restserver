@@ -9,7 +9,6 @@ const rolesValidos = {
 }
 
 const usuarioSchema = new Schema({
-    _id: Schema.Types.ObjectId,
     nombre: {
         type: String,
         uppercase: true,

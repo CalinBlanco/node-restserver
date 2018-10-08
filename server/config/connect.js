@@ -1,5 +1,3 @@
-// Requerimos el config
-require('./config');
 const mongoose = require('mongoose');
 
 // Conectándose a mongodb
@@ -14,7 +12,7 @@ mongoose.connect(process.env.URLBD, (err) => {
 
 // ==============================
 // Esta es otra manera de conección a la BD de Mongo a partir de la versión 4.
-// mongoose.connect('mongodb://localhost:27017/cafe', { useNewUrlParser: true })
+// mongoose.connect(process.env.URLBD, { useNewUrlParser: true })
 // let db = mongoose.connection;
 // db.on('error', console.error.bind(console, 'Error de conección:'));
 // db.once('open', () => {
